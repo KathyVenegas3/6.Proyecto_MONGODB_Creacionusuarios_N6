@@ -30,3 +30,13 @@ r.delete("/:id", requireAuth, deleteProduct);
 r.get("/admin/all", requireAuth, requireRole("admin"), listProducts);
 
 export default r;
+
+import { suggestTaskTitles } from "../services/openai.service.js";
+/** @openapi
+ * /api/products/ai/ideas:
+ *   get: { summary: Sugerencias con OpenAI, security: [{ bearerAuth: [] }], tags: [AI] }
+ */
+r.get("/ai/ideas", requireAuth, async (req, res) => {
+  const q = String(req.query.q || "organización");
+  res.json({ ok: true, data: await suggestTaskTitles(q) });
+});
