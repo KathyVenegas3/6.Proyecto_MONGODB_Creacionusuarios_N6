@@ -97,10 +97,10 @@ JWT_SECRET=una_llave_secreta_larga_y_unica
 - Nunca subas .env al repo (ya está en .gitignore).
 - En Render define estas variables en Environment.
 
-▶️ Cómo correr en local
-npm install
-npm run dev
+# ▶️ Cómo correr en local
 
+- npm install
+- npm run dev
 
 Servidor: http://localhost:3000
 
