@@ -25,3 +25,35 @@ export const me = async (req, res) => {
   const u = await User.findById(req.user.id).select("-password");
   res.json({ ok: true, data: u });
 };
+
+// === Endpoints extra para la pauta ===
+export const verifyToken = async (req, res) => {
+  res.json({ ok: true, data: { id: req.user.id, role: req.user.role } });
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const allowed = ["name", "email", "password"];
+    const updates = {};
+    for (const k of allowed) if (req.body[k] !== undefined) updates[k] = req.body[k];
+
+    if (Object.keys(updates).length === 0)
+      return res.status(400).json({ ok: false, error: "Nada para actualizar" });
+
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ ok: false, error: "Usuario no encontrado" });
+
+    if (updates.email && updates.email !== user.email) {
+      const taken = await User.findOne({ email: updates.email });
+      if (taken) return res.status(409).json({ ok: false, error: "Email ya registrado" });
+    }
+
+    Object.assign(user, updates);
+    await user.save(); // si cambia password, se re-hashea por el pre('save')
+
+    const { password, ...clean } = user.toObject();
+    res.json({ ok: true, data: clean });
+  } catch (e) {
+    res.status(400).json({ ok: false, error: e.message });
+  }
+};
