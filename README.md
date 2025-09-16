@@ -121,7 +121,7 @@ GET / → { "ok": true, "msg": "API Auth & Tasks" }
 - Endpoints protegidos enviarán Authorization: Bearer <token>
 
 # 📚 Endpoints
-- User
+**User**
 
 - POST /api/user/register — Registrar usuario
 
@@ -133,7 +133,7 @@ GET / → { "ok": true, "msg": "API Auth & Tasks" }
 
 - PUT /api/user/update — Actualizar perfil (🛡️)
 
-- Products (tareas) — todas protegidas (🛡️)
+**Products (tareas) — todas protegidas (🛡️)** 
 
 - POST /api/product/create — Crear tarea
 
